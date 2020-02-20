@@ -17,3 +17,10 @@ To turn this on modify the last line in dVRL_simulator/environments/<reach/pick>
 
 	CMD /app/V-REP/vrep.sh -h -s -q /app/scene.ttt
 
+Test to check if NVIDIA Runtime can be used:
+
+``` docker run --gpus all --rm nvidia/cuda:9.0-base nvidia-smi ```
+
+Current issue:
+
+Specifying `--runtime nvidia` seems to be causing issues
