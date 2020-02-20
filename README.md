@@ -16,11 +16,31 @@ To speed up the simulation during training, V-REP can be launched within the doc
 To turn this on modify the last line in dVRL_simulator/environments/<reach/pick>_ee_dockerfile/Dockerfile. Add the "-h" flag in the final line: 
 
 	CMD /app/V-REP/vrep.sh -h -s -q /app/scene.ttt
-
 Test to check if NVIDIA Runtime can be used:
 
 ``` docker run --gpus all --rm nvidia/cuda:9.0-base nvidia-smi ```
 
+Known issues and fixes:
+
+1. User --user 1000 instead of username if name not found in password file
+
+2. `$ docker run --env="DISPLAY" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --gpus all vrep_ee_reach`
+
+`QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+No protocol specified
+QXcbConnection: Could not connect to display :0
+/app/V-REP/vrep.sh: line 33:    13 Aborted                 (core dumped) "$dirname/$appname" "${PARAMETERS[@]}"`
+
+Fix:
+If you are not running docker as `sudo`, use the following: 
+Run
+`$xhost local:root`
+
+or `try $xhost +`
+
 Current issue:
 
 Specifying `--runtime nvidia` seems to be causing issues
+
+1. 
+```docker run --env="DISPLAY" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --runtime=nvidia vrep_ee_reach```
